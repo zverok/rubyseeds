@@ -6,5 +6,9 @@ describe Object do
       expect('Test Me'.decompose(:upcase, :downcase, :length)).
         to eq(['TEST ME', 'test me', 7])
     end
+
+    it 'fails on unknown methods' do
+      expect{'Test Me'.decompose(:upscase)}.to raise_error(NoMethodError)
+    end
   end
 end
