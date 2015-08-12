@@ -1,10 +1,81 @@
 # RubySeeds
 
+* Array#convert(*conversions) -- per item array processing
+* Enumerable#group_count -- count groups
 * Hash#compact
 * Hash#except(*keys)
 * Hash#only(*keys)
 * Hash: stringify and symbolize keys
+* Numeric: treat as time spans (minutes, hours and so on).
+* Object#decompose(:method1, :method2, ...)
+* String#split2(*patterns)
+* String#surround(before, after)
 
+## Array#convert(*conversions) -- per item array processing
+
+Processes each item of array with method provided.
+
+Usage:
+```ruby
+# Code without convert:
+arr = 'test;10;84.0;2015-08-01'.split(';')
+return [arr[0], arr[1].to_i, arr[2].to_f, Time.parse(arr[3])]
+
+# Code with convert:
+return 'test;10;84.0;2015-08-01'.split(';').
+convert(:to_s, :to_i, :to_f, Time.method(:parse))
+```
+Conversions can be:
+* symbol (sent to array item);
+* proc or method (called with array item as an argument)
+* nil (no conversion).
+
+**Note**: if you'll use this method heavy, you may think of more
+complicated implementation, with default values, errors processing and
+stuff. But its out of scope of RubySeeds.
+
+### Code
+```ruby
+class Array
+  def convert(*conversions)
+    zip(conversions).map do |val, conv|
+      case conv
+      when Symbol       then val.send(conv)
+      when Proc, Method then conv.call(val)
+      when nil          then val
+      else
+        fail ArgumentError,
+             "Can't append conversion of #{conv.class} to #{val.class}"
+      end
+    end
+  end
+end
+```
+## Enumerable#group_count -- count groups
+
+Performs `#group_by`, and then counts items in each group.
+Unlike `#group_by`, when no block provided, groups elements by their
+values.
+
+Usage:
+
+```ruby
+['test', 'me', 'heck'].group_count(&:length) # => {4 => 2, 2 => 1}
+
+[:test, :test, :me, :foo, :foo].group_count
+# => {:test => 2, :me => 1, :foo => 2}
+```
+
+
+### Code
+```ruby
+module Enumerable
+  def group_count(&block)
+    block ||= ->(x) { x }
+    group_by(&block).map { |title, group| [title, group.count] }.to_h
+  end
+end
+```
 ## Hash#compact
 
 Drop the nil values from hash (just like `Array#compact` do for arrays).
@@ -99,6 +170,138 @@ class Hash
 
   def symbolize_keys
     dup.symbolize_keys!
+  end
+end
+```
+## Numeric: treat as time spans (minutes, hours and so on).
+
+Really dead simple implementation. Yet it can be useful for small scripts
+and prototypes and .irbrc, so I'm having it in my baggage.
+
+**Note**: implementation is really simple, like `month` is 30 days, `year`
+is 365 days, no timezones or stuff.
+
+Usage:
+
+```ruby
+10.minutes # 10*60
+# seconds, hours, days, weeks, months, years also work
+# as well as singular forms like:
+1.hour # => 60*60
+```
+
+
+### Code
+```ruby
+class Numeric
+  def seconds
+    self
+  end
+
+  def minutes
+    self * 60
+  end
+
+  def hours
+    self * 60.minutes
+  end
+
+  def days
+    self * 24.hours
+  end
+
+  def weeks
+    self * 7.days
+  end
+
+  def months
+    self * 30.days
+  end
+
+  def years
+    self * 365.days
+  end
+
+  alias_method :second, :seconds
+  alias_method :minute, :minutes
+  alias_method :hour, :hours
+  alias_method :day, :days
+  alias_method :week, :weeks
+  alias_method :month, :months
+  alias_method :year, :years
+end
+```
+## Object#decompose(:method1, :method2, ...)
+
+"Decomposes" some object into array of values, received by calling its
+getters.
+
+Usage:
+```ruby
+# assuming we have some Author model
+Author.first.decompose(:first_name, :last_name).join(' ')
+```
+
+
+### Code
+```ruby
+class Object
+  def decompose(*methods)
+    methods.map { |m| send(m) }
+  end
+end
+```
+## String#split2(*patterns)
+
+Recursively split string by multiple patterns.
+
+Usage:
+```ruby
+# Without split2
+'word:10,other:20,stats:50'.split2(',').map{|wc| wc.split(':')}
+# => [['word', '10'], ['other', '20'], ['stats', '50']]
+File.read('data.tsv').split("\n").map{|ln| ln.split("\t")}
+# => array of arrays
+
+# With split2
+'word:10,other:20,stats:50'.split2(',', ':')
+# => [['word', '10'], ['other', '20'], ['stats', '50']]
+File.read('data.tsv').split("\n", "\t")
+# => array of arrays
+```
+
+Note: there can be any number of patterns, not only two.
+
+### Code
+```ruby
+class String
+  def split2(*patterns)
+    if patterns.count > 1
+      split(patterns.first).map { |item| item.split2(*patterns[1..-1]) }
+    else
+      split(patterns.first)
+    end
+  end
+end
+```
+## String#surround(before, after)
+
+Surrounds string with before/after strings.
+
+Usage:
+```ruby
+'test'.surround('(', ')') # => '(test)'
+'test'.surround('|') # => '|test|'
+```
+
+Note: for symmetry, some could ask for `#append` and `#prepend`... but
+I've never felt a need for this.
+
+### Code
+```ruby
+class String
+  def surround(before, after = before)
+    "#{before}#{self}#{after}"
   end
 end
 ```
