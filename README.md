@@ -112,14 +112,26 @@ I allowed myself to keep the name.
 
 ## Other nice things to say
 
-For cleaner code and 
+If you are like me (= understand, while we sometimes add features to our
+beloved language to make code clear and rational), you may like also those
+libraries:
 
-* naught
-* hashie
-* time_boots
+* [hashie](https://github.com/intridea/hashie), which is the most popular
+  way of treating hashes as a light-weight objects, as well as set of
+  really useful Hash extensions;
+* [naught](https://github.com/avdi/naught) -- a superior Ruby NullObject
+  pattern implementation, with lot of options
+* [time_boots](https://github.com/zverok/time_boots) (shameless
+  self-promotion) -- the small and clean library dealing with everyday
+  `Time` tasks like "next day", "prev day", "todays midnight",
+  "list of time periods of arbitrary length" and so on (and NO
+  core_ext-ing this time! compatible with everything).
 
 ## Contributing
 
 Just usual fork-change-push-make pull request process. Note (if you haven't
 already), that RubySeeds is highly opionated set of extensions, so,
 there's no guarantee that pull requests with new features will be accepted.
+
+NB: never try to update RubySeeds.md file -- it is built automatically from
+code in `lib/**/*.rb`, with `rake build`.

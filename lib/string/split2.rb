@@ -5,7 +5,7 @@
 # Usage:
 # ```ruby
 # # Without split2
-# 'word:10,other:20,stats:50'.split2(',').map{|wc| wc.split(':')}
+# 'word:10,other:20,stats:50'.split(',').map{|wc| wc.split(':')}
 # # => [['word', '10'], ['other', '20'], ['stats', '50']]
 # File.read('data.tsv').split("\n").map{|ln| ln.split("\t")}
 # # => array of arrays
@@ -13,7 +13,7 @@
 # # With split2
 # 'word:10,other:20,stats:50'.split2(',', ':')
 # # => [['word', '10'], ['other', '20'], ['stats', '50']]
-# File.read('data.tsv').split("\n", "\t")
+# File.read('data.tsv').split2("\n", "\t")
 # # => array of arrays
 # ```
 #
