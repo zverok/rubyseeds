@@ -16,19 +16,33 @@
 # ```
 #
 class Numeric
-  def seconds; self end
+  def seconds
+    self
+  end
 
-  def minutes; self * 60 end
+  def minutes
+    self * 60
+  end
 
-  def hours; self * 60.minutes end
+  def hours
+    self * 60.minutes
+  end
 
-  def days; self * 24.hours end
+  def days
+    self * 24.hours
+  end
 
-  def weeks; self * 7.days end
+  def weeks
+    self * 7.days
+  end
 
-  def months; self * 30.days end
+  def months
+    self * 30.days
+  end
 
-  def years; self * 365.days end
+  def years
+    self * 365.days
+  end
 
   alias_method :second, :seconds
   alias_method :minute, :minutes
@@ -38,4 +52,3 @@ class Numeric
   alias_method :month, :months
   alias_method :year, :years
 end
-
