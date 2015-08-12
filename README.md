@@ -19,7 +19,7 @@ RubySeeds is **not a gem**. On my strong opinion, there is no good in
 mixing together everything somebody can need in core classes. The same
 way, there's no good to make a small gem of each useful idea.
 
-RubySeeds is just an easily navigable [**list of code snippets**]((https://github.com/zverok/rubyseeds/blob/master/RubySeeds.md))
+RubySeeds is just an easily navigable [**list of code snippets**](https://github.com/zverok/rubyseeds/blob/master/RubySeeds.md)
 with clean and simple explanations. Those snippets are thought to be just
 droppable in your projects `lib/core_ext.rb` (with possible renamings
 and improvements).
