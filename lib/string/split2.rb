@@ -21,7 +21,7 @@
 class String
   def split2(*patterns)
     if patterns.count > 1
-      split(patterns.first).map{|item| item.split2(*patterns[1..-1])}
+      split(patterns.first).map { |item| item.split2(*patterns[1..-1]) }
     else
       split(patterns.first)
     end

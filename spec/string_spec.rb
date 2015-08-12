@@ -7,4 +7,11 @@ describe String do
         to eq [['foo', '1'], ['bar', '2'], ['heck', '3']]
     end
   end
+
+  describe :surround do
+    it 'surrounds?' do
+      expect('test'.surround('(', ')')).to eq '(test)'
+      expect('test'.surround('|')).to eq '|test|'
+    end
+  end
 end
