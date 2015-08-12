@@ -1,21 +1,21 @@
 # RubySeeds
 
-* Array#convert(*conversions) -- per item array processing
-* Enumerable#group_count -- count groups
-* Hash#compact
-* Hash#except(*keys)
-* Hash#only(*keys)
-* Hash: stringify and symbolize keys
-* Numeric: treat as time spans (minutes, hours and so on).
-* Object#decompose(:method1, :method2, ...)
-* String#split2(*patterns)
-* String#surround(before, after)
+* [Array#convert(*conversions) -- per item array processing](#arrayconvertconversions----per-item-array-processing)
+* [Enumerable#group_count -- count groups](#enumerablegroup_count----count-groups)
+* [Hash#compact](#hashcompact)
+* [Hash#except(*keys)](#hashexceptkeys)
+* [Hash#only(*keys)](#hashonlykeys)
+* [Hash: stringify and symbolize keys](#hash-stringify-and-symbolize-keys)
+* [Numeric: treat as time spans (minutes, hours and so on).](#numeric-treat-as-time-spans-minutes-hours-and-so-on)
+* [Object#decompose(:method1, :method2, ...)](#objectdecomposemethod1-method2-)
+* [String#split2(*patterns)](#stringsplit2patterns)
+* [String#surround(before, after)](#stringsurroundbefore-after)
 
 ## Array#convert(*conversions) -- per item array processing
 
 Processes each item of array with method provided.
 
-Usage:
+**Usage:**
 ```ruby
 # Code without convert:
 arr = 'test;10;84.0;2015-08-01'.split(';')
@@ -23,7 +23,7 @@ return [arr[0], arr[1].to_i, arr[2].to_f, Time.parse(arr[3])]
 
 # Code with convert:
 return 'test;10;84.0;2015-08-01'.split(';').
-convert(:to_s, :to_i, :to_f, Time.method(:parse))
+  convert(:to_s, :to_i, :to_f, Time.method(:parse))
 ```
 Conversions can be:
 * symbol (sent to array item);
@@ -34,7 +34,7 @@ Conversions can be:
 complicated implementation, with default values, errors processing and
 stuff. But its out of scope of RubySeeds.
 
-### Code
+**Code**
 ```ruby
 class Array
   def convert(*conversions)
@@ -57,7 +57,7 @@ Performs `#group_by`, and then counts items in each group.
 Unlike `#group_by`, when no block provided, groups elements by their
 values.
 
-Usage:
+**Usage:**
 
 ```ruby
 ['test', 'me', 'heck'].group_count(&:length) # => {4 => 2, 2 => 1}
@@ -67,7 +67,7 @@ Usage:
 ```
 
 
-### Code
+**Code**
 ```ruby
 module Enumerable
   def group_count(&block)
@@ -80,12 +80,12 @@ end
 
 Drop the nil values from hash (just like `Array#compact` do for arrays).
 
-Usage:
+**Usage:**
 ```ruby
 {a: 1, b: nil, c: 3, d: nil}.compact # => {a: 1, c: 3}
 ```
 
-### Code
+**Code**
 ```ruby
 class Hash
   def compact!
@@ -102,12 +102,12 @@ end
 
 Returns the hash without keys specified.
 
-Usage:
+**Usage:**
 ```ruby
 {a: 1, b: 2, c: 3, d: 4}.except(:a, :c) # => {b: 2, d: 4}
 ```
 
-### Code
+**Code**
 ```ruby
 class Hash
   def except(*keys)
@@ -119,12 +119,12 @@ end
 
 Returns the hash, where ONLY the specified keys left.
 
-Usage:
+**Usage:**
 ```ruby
 {a: 1, b: 2, c: 3, d: 4}.only(:a, :c) # => {a: 1, c: 3}
 ```
 
-### Code
+**Code**
 ```ruby
 class Hash
   def only(*keys)
@@ -136,7 +136,7 @@ end
 
 Just standalone implementation of this frequently-used methods.
 
-Usage:
+**Usage:**
 
 ```ruby
 {test: 1}.stringify_keys # => {'test' => 1}
@@ -147,7 +147,7 @@ Note: Uses just `to_s`/`to_sym` on keys, so, will raise of key is not
 convertible. Which is most reasonable thing to do anyways.
 
 
-### Code
+**Code**
 ```ruby
 class Hash
   def stringify_keys!
@@ -181,7 +181,7 @@ and prototypes and .irbrc, so I'm having it in my baggage.
 **Note**: implementation is really simple, like `month` is 30 days, `year`
 is 365 days, no timezones or stuff.
 
-Usage:
+**Usage:**
 
 ```ruby
 10.minutes # 10*60
@@ -191,7 +191,7 @@ Usage:
 ```
 
 
-### Code
+**Code**
 ```ruby
 class Numeric
   def seconds
@@ -236,14 +236,14 @@ end
 "Decomposes" some object into array of values, received by calling its
 getters.
 
-Usage:
+**Usage:**
 ```ruby
 # assuming we have some Author model
 Author.first.decompose(:first_name, :last_name).join(' ')
 ```
 
 
-### Code
+**Code**
 ```ruby
 class Object
   def decompose(*methods)
@@ -255,7 +255,7 @@ end
 
 Recursively split string by multiple patterns.
 
-Usage:
+**Usage:**
 ```ruby
 # Without split2
 'word:10,other:20,stats:50'.split2(',').map{|wc| wc.split(':')}
@@ -272,7 +272,7 @@ File.read('data.tsv').split("\n", "\t")
 
 Note: there can be any number of patterns, not only two.
 
-### Code
+**Code**
 ```ruby
 class String
   def split2(*patterns)
@@ -288,7 +288,7 @@ end
 
 Surrounds string with before/after strings.
 
-Usage:
+**Usage:**
 ```ruby
 'test'.surround('(', ')') # => '(test)'
 'test'.surround('|') # => '|test|'
@@ -297,7 +297,7 @@ Usage:
 Note: for symmetry, some could ask for `#append` and `#prepend`... but
 I've never felt a need for this.
 
-### Code
+**Code**
 ```ruby
 class String
   def surround(before, after = before)
