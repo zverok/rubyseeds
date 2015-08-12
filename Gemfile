@@ -5,4 +5,5 @@ group :development do
   gem 'rspec', '~> 3'
   gem 'rspec-its'
   gem 'rubocop'
+  gem 'rake'
 end

@@ -36,7 +36,8 @@ Snippets selected for RubySeeds posess those common qualities:
 ## Usage
 
 There's one huge, yet (supposedly) easily-navigable page with all seeds
-described: http://zverok.github.io/rubyseeds/
+described: [RubySeeds.md](https://github.com/zverok/rubyseeds/blob/master/RubySeeds.md).
+(In future will be separate page with collapsible code.)
 
 You just browse it, select what you like, expand **Code** section and
 copy-paste it into your `core_ext.rb` or wherever you want.
@@ -44,9 +45,60 @@ copy-paste it into your `core_ext.rb` or wherever you want.
 ### Refinements: highly recommended approach
 
 Since version 2.0, Ruby has [refinements](http://ruby-doc.org/core-2.1.1/doc/syntax/refinements_rdoc.html)
-which allows 
+which allows core (and other) classes to be extended not globally, but in
+context of some module.
+
+Before refinements:
+```ruby
+# in core_ext.rb
+class Hash
+  def symbolize_keys
+    # ...
+  end
+end
+
+# everywhere in code
+require 'core_ext'
+# now ANYWHERE Hash#symbolize_keys refers to your implementation... unless
+# you require something else, redefining it.
+```
+
+With refinements:
+```ruby
+# in core_ext.rb
+module HashSymbolize
+  refine Hash do
+    def symbolize_keys
+      # ...
+    end
+  end
+end
+
+# in some concrete place:
+require 'core_ext'
+class MyClass
+  using HashSymbolize
+  # now Hash#symbolize_keys can be used inside your class only
+end
+```
 
 ## On "monkey-patching is bad" rant
+
+Somebody can say that adding functionality to core classess (even through
+refinements) is a bad practice.
+
+It may be (or maybe not) true for large
+enterprise-y systems with tens of juniors fixing your code here and there
+and some contractor just running through it wildly...
+
+Yet for many small-to-medium data-processing tasks you just want to be
+comfortable with code, having it clean and looking like chain of data
+processing calls. So, you just want
+`load(something).do_this.and_that.and_shit` instead of multiple
+`My::Deeply::Nested::Namespace.very_concrete_processing_method_name(data)`
+calls. And you have it.
+
+Also, take a look at Hal Fultons [post about "monkey patching"](http://rubyhacker.com/blog2/concerning-the-term-monkeypatching.html).
 
 ## On possible name confusion
 
@@ -54,16 +106,17 @@ There was [rubyseeds](https://github.com/rubyseeds) organization on github,
 something about learning Ruby, I guess?..
 
 Current project have no relation to this group, and, as
-[the site](http://rubyseeds.github.io/materials/) seems to be dead, and I've already
-thinked out and loved the name when I found the organization, I allowed myself to keep it.
+[the site](http://rubyseeds.github.io/materials/) seems to be dead, and
+I've already thinked out and loved the name when I found the organization,
+I allowed myself to keep the name.
 
 ## Other nice things to say
 
-Approaches:
+For cleaner code and 
 
-naught
-hashie
-time_boots
+* naught
+* hashie
+* time_boots
 
 ## Contributing
 

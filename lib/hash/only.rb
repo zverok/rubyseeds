@@ -1,6 +1,6 @@
 # ## Hash#only(*keys)
 #
-# Returns the hash, where ONLY the specified keys left
+# Returns the hash, where ONLY the specified keys left.
 #
 # Usage:
 # ```ruby

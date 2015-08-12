@@ -1,6 +1,6 @@
 # ## Hash#except(*keys)
 #
-# Returns the hash without keys specified
+# Returns the hash without keys specified.
 #
 # Usage:
 # ```ruby
