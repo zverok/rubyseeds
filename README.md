@@ -19,9 +19,10 @@ RubySeeds is **not a gem**. On my strong opinion, there is no good in
 mixing together everything somebody can need in core classes. The same
 way, there's no good to make a small gem of each useful idea.
 
-RubySeeds is just an easily navigable **list of code snippets** with clean
-and simple explanations. Those snippets are thought to be just droppable
-in your projects `lib/core_ext.rb` (with possible renamings and rewritings).
+RubySeeds is just an easily navigable [**list of code snippets**]((https://github.com/zverok/rubyseeds/blob/master/RubySeeds.md))
+with clean and simple explanations. Those snippets are thought to be just
+droppable in your projects `lib/core_ext.rb` (with possible renamings
+and improvements).
 
 Snippets selected for RubySeeds posess those common qualities:
 * targeting shorter, yet clean code (not "clever" or "magic");
@@ -120,7 +121,7 @@ libraries:
   way of treating hashes as a light-weight objects, as well as set of
   really useful Hash extensions;
 * [naught](https://github.com/avdi/naught) -- a superior Ruby NullObject
-  pattern implementation, with lot of options
+  pattern implementation, with lot of options;
 * [time_boots](https://github.com/zverok/time_boots) (shameless
   self-promotion) -- the small and clean library dealing with everyday
   `Time` tasks like "next day", "prev day", "todays midnight",
@@ -135,3 +136,8 @@ there's no guarantee that pull requests with new features will be accepted.
 
 NB: never try to update RubySeeds.md file -- it is built automatically from
 code in `lib/**/*.rb`, with `rake build`.
+
+## License
+
+Those are code snippets barely dozen lines length. Let's say "public
+domain", ok?
