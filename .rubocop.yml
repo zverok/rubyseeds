@@ -1,0 +1,8 @@
+AllCops:
+  Include:
+    - 'lib/**/*'
+  Exclude:
+    - 'spec/*'
+    - 'spec/**/*'
+    - 'vendor/**/*'
+    - 'tmp/*'
