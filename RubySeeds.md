@@ -72,7 +72,11 @@ values.
 module Enumerable
   def group_count(&block)
     block ||= ->(x) { x }
-    group_by(&block).map { |title, group| [title, group.count] }.to_h
+    Hash.new{ 0 }.tap{|res|
+      each do |val|
+        res[block.call(val)] += 1
+      end
+    }
   end
 end
 ```
