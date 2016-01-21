@@ -12,4 +12,11 @@ describe Numeric do
       expect(10.years).to eq 10*60*60*24*365
     end
   end
+
+  describe 'rescale' do
+    it 'rescales' do
+      expect(5.rescale(0..10, -100..100)).to eq 0
+      expect(0.3.rescale(0..1, 10..20)).to be_within(0.01).of(13)
+    end
+  end
 end

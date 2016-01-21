@@ -6,6 +6,7 @@
 * [Hash#except(*keys)](#hashexceptkeys)
 * [Hash#only(*keys)](#hashonlykeys)
 * [Hash: stringify and symbolize keys](#hash-stringify-and-symbolize-keys)
+* [Numeric: rescale to another range (normalize)](#numeric-rescale-to-another-range-normalize)
 * [Numeric: treat as time spans (minutes, hours and so on).](#numeric-treat-as-time-spans-minutes-hours-and-so-on)
 * [Object#decompose(:method1, :method2, ...)](#objectdecomposemethod1-method2-)
 * [String#split2(*patterns)](#stringsplit2patterns)
@@ -174,6 +175,35 @@ class Hash
 
   def symbolize_keys
     dup.symbolize_keys!
+  end
+end
+```
+## Numeric: rescale to another range (normalize)
+
+Rescales number from one known range to another.
+Useful for data normalization.
+
+**Note**: Depending on usage, you could consider types handling (int/float)
+too naive.
+
+**Usage:**
+
+```ruby
+array = [1, -5, 84, -3.5, 12]
+
+array.map{|n| n.rescale(array.min..array.max, 0..100)}
+# => [6, 0, 100, 1.68, 19]
+
+```
+
+**Code**
+```ruby
+class Numeric
+  def rescale(from, to)
+    from_size = from.end - from.begin
+    to_size = to.end - to.begin
+
+    (self - from.begin) * to_size / from_size + to.begin
   end
 end
 ```
