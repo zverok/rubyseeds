@@ -1,7 +1,7 @@
 # ## Enumerable#group_count -- count groups
 #
-# Performs `#group_by`, and then counts items in each group.
-# Unlike `#group_by`, when no block provided, groups elements by their
+# Counts items with same value returned by block.
+# Unlike `#group_by`, when no block provided, counts elements by their
 # values.
 #
 # Usage:
