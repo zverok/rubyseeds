@@ -101,6 +101,8 @@ calls. And you have it.
 
 Also, take a look at Hal Fultons [post about "monkey patching"](http://rubyhacker.com/blog2/concerning-the-term-monkeypatching.html).
 
+And [here](http://zverok.github.io/blog/2016-09-28-monkeys.html) is my own latest post on the topic.
+
 ## On possible name confusion
 
 There was [rubyseeds](https://github.com/rubyseeds) organization on github,
@@ -122,7 +124,7 @@ libraries:
   really useful Hash extensions;
 * [naught](https://github.com/avdi/naught) -- a superior Ruby NullObject
   pattern implementation, with lot of options;
-* [time_boots](https://github.com/zverok/time_boots) (shameless
+* [time_math2](https://github.com/zverok/time_math2) (shameless
   self-promotion) -- the small and clean library dealing with everyday
   `Time` tasks like "next day", "prev day", "todays midnight",
   "list of time periods of arbitrary length" and so on (and NO
