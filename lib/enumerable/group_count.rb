@@ -16,10 +16,10 @@
 module Enumerable
   def group_count(&block)
     block ||= ->(x) { x }
-    Hash.new{ 0 }.tap{|res|
+    Hash.new { 0 }.tap do |res|
       each do |val|
         res[block.call(val)] += 1
       end
-    }
+    end
   end
 end

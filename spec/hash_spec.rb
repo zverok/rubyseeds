@@ -35,12 +35,4 @@ describe Hash do
         to eq(first: 1, third: 3)
     end
   end
-
-  describe :compact! do
-    it 'should drop nil values' do
-      hash = {first: 1, second: nil, third: 3}
-      hash.compact!
-      expect(hash).to eq(first: 1, third: 3)
-    end
-  end
 end

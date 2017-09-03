@@ -6,3 +6,5 @@ AllCops:
     - 'spec/**/*'
     - 'vendor/**/*'
     - 'tmp/*'
+    - Gemfile
+    - Rakefile

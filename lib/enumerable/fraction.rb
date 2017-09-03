@@ -10,8 +10,8 @@
 # ```
 #
 module Enumerable
-  def fraction(&block)
-    whole, frac = inject([0, 0]) { |(w, f), i| [w + 1, f + (block.call(i) ? 1 : 0)] }
+  def fraction
+    whole, frac = inject([0, 0]) { |(w, f), i| [w + 1, f + (yield(i) ? 1 : 0)] }
     whole.zero? ? Rational(1) : Rational(frac, whole)
   end
 end

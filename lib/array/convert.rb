@@ -28,8 +28,8 @@ class Array
       when Proc, Method then conv.call(val)
       when nil          then val
       else
-        fail ArgumentError,
-             "Can't append conversion of #{conv.class} to #{val.class}"
+        raise ArgumentError,
+              "Can't append conversion of #{conv.class} to #{val.class}"
       end
     end
   end

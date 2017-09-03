@@ -44,11 +44,11 @@ class Numeric
     self * 365.days
   end
 
-  alias_method :second, :seconds
-  alias_method :minute, :minutes
-  alias_method :hour, :hours
-  alias_method :day, :days
-  alias_method :week, :weeks
-  alias_method :month, :months
-  alias_method :year, :years
+  alias second seconds
+  alias minute minutes
+  alias hour hours
+  alias day days
+  alias week weeks
+  alias month months
+  alias year years
 end
