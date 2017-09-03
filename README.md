@@ -119,6 +119,8 @@ If you are like me (= understand, while we sometimes add features to our
 beloved language to make code clear and rational), you may like also those
 libraries:
 
+* [backports](https://github.com/marcandre/backports) or [polyfill](https://github.com/AaronLasseigne/polyfill)
+  to have all the goodness of new Ruby versions in older ones;
 * [hashie](https://github.com/intridea/hashie), which is the most popular
   way of treating hashes as a light-weight objects, as well as set of
   really useful Hash extensions;
