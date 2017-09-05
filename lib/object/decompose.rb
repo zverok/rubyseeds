@@ -11,6 +11,6 @@
 #
 class Object
   def decompose(*methods)
-    methods.map { |m| send(m) }
+    methods.map { |m| public_send(m) }
   end
 end

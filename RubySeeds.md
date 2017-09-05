@@ -3,13 +3,13 @@
 * [Array#convert(*conversions) -- per item array processing](#arrayconvertconversions----per-item-array-processing)
 * [Enumerable#fraction -- fraction of items in a whole](#enumerablefraction----fraction-of-items-in-a-whole)
 * [Enumerable#group_count -- count groups](#enumerablegroup_count----count-groups)
-* [Hash#compact](#hashcompact)
 * [Hash#except(*keys)](#hashexceptkeys)
 * [Hash#only(*keys)](#hashonlykeys)
 * [Hash: stringify and symbolize keys](#hash-stringify-and-symbolize-keys)
 * [Numeric: rescale to another range (normalize)](#numeric-rescale-to-another-range-normalize)
 * [Numeric: treat as time spans (minutes, hours and so on).](#numeric-treat-as-time-spans-minutes-hours-and-so-on)
 * [Object#decompose(:method1, :method2, ...)](#objectdecomposemethod1-method2-)
+* [Object#hashify(:method1, :method2, ...)](#objecthashifymethod1-method2-)
 * [String#split2(*patterns)](#stringsplit2patterns)
 * [String#surround(before, after)](#stringsurroundbefore-after)
 
@@ -46,8 +46,8 @@ class Array
       when Proc, Method then conv.call(val)
       when nil          then val
       else
-        fail ArgumentError,
-             "Can't append conversion of #{conv.class} to #{val.class}"
+        raise ArgumentError,
+              "Can't append conversion of #{conv.class} to #{val.class}"
       end
     end
   end
@@ -68,8 +68,8 @@ relative to entire collection size.
 **Code**
 ```ruby
 module Enumerable
-  def fraction(&block)
-    whole, frac = inject([0, 0]) { |(w, f), i| [w + 1, f + (block.call(i) ? 1 : 0)] }
+  def fraction
+    whole, frac = inject([0, 0]) { |(w, f), i| [w + 1, f + (yield(i) ? 1 : 0)] }
     whole.zero? ? Rational(1) : Rational(frac, whole)
   end
 end
@@ -95,33 +95,11 @@ values.
 module Enumerable
   def group_count(&block)
     block ||= ->(x) { x }
-    Hash.new{ 0 }.tap{|res|
+    Hash.new { 0 }.tap do |res|
       each do |val|
         res[block.call(val)] += 1
       end
-    }
-  end
-end
-```
-## Hash#compact
-
-Drop the nil values from hash (just like `Array#compact` do for arrays).
-
-**Usage:**
-```ruby
-{a: 1, b: nil, c: 3, d: nil}.compact # => {a: 1, c: 3}
-```
-
-**Code**
-```ruby
-class Hash
-  def compact!
-    reject! { |_k, v| v.nil? }
-    self
-  end
-
-  def compact
-    dup.compact!
+    end
   end
 end
 ```
@@ -278,13 +256,13 @@ class Numeric
     self * 365.days
   end
 
-  alias_method :second, :seconds
-  alias_method :minute, :minutes
-  alias_method :hour, :hours
-  alias_method :day, :days
-  alias_method :week, :weeks
-  alias_method :month, :months
-  alias_method :year, :years
+  alias second seconds
+  alias minute minutes
+  alias hour hours
+  alias day days
+  alias week weeks
+  alias month months
+  alias year years
 end
 ```
 ## Object#decompose(:method1, :method2, ...)
@@ -303,7 +281,28 @@ Author.first.decompose(:first_name, :last_name).join(' ')
 ```ruby
 class Object
   def decompose(*methods)
-    methods.map { |m| send(m) }
+    methods.map { |m| public_send(m) }
+  end
+end
+```
+## Object#hashify(:method1, :method2, ...)
+
+Converts object to hash of selected attributes
+
+**Usage:**
+
+```ruby
+# assuming we have some Author model
+Author.first.hashify(:first_name, :last_name)
+# => {first_name: 'John', last_name: 'Lennon'}
+```
+
+
+**Code**
+```ruby
+class Object
+  def hashify(*methods)
+    methods.map { |m| [m, public_send(m)] }.to_h
   end
 end
 ```
